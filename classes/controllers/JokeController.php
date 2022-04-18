@@ -33,18 +33,21 @@ class JokeController
 
         $totalJokes = $this->jokesTable->total();
 
-        ob_start();
 
-        include  __DIR__ . '/../../templates/jokes.html.php';
-
-        $output = ob_get_clean();
-
-        return ['output' => $output, 'title' => $title];
+        return [
+            'template' => 'jokes.html.php',
+            'title' => $title,
+            'variables' => [
+                'totalJokes' => $totalJokes,
+                'jokes' => $jokes
+            ]
+        ];
     }
 
     public function home()
     {
         $title = 'Internet Joke Database';
+
         return ['template' => 'home.html.php', 'title' => $title];
     }
 
@@ -52,7 +55,7 @@ class JokeController
     {
         $this->jokesTable->delete($_POST['id']);
 
-        header('location: index.php?action=list');
+        header('location: /joke/list');
     }
 
 
@@ -66,7 +69,7 @@ class JokeController
 
             $this->jokesTable->save($joke);
 
-            header('location: index.php?action=list');
+            header('location: /joke/list');
         } else {
 
             if (isset($_GET['id'])) {
@@ -75,13 +78,13 @@ class JokeController
 
             $title = 'Edit joke';
 
-            ob_start();
-
-            include  __DIR__ . '/../../templates/editjoke.html.php';
-
-            $output = ob_get_clean();
-
-            return ['output' => $output, 'title' => $title];
+            return [
+                'template' => 'editjoke.html.php',
+                'title' => $title,
+                'variables' => [
+                    'joke' => $joke ?? null
+                ]
+            ];
         }
     }
 }
