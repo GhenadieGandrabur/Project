@@ -3,8 +3,8 @@ class IjdbRoutes
 {
     public function callAction($route)
     {
-        include __DIR__ . '/../classes/DatabaseTable.php';
-        include __DIR__ . '/../includes/DatabaseConnection.php';
+        
+        include __DIR__ . '/../../includes/DatabaseConnection.php';
 
         $jokesTable = new DatabaseTable($pdo, 'joke', 'id');
         $authorsTable = new DatabaseTable($pdo, 'author', 'id');
