@@ -28,19 +28,14 @@ class JokeController
             ];
         }
 
-
         $title = 'Joke list';
 
         $totalJokes = $this->jokesTable->total();
 
-
         return [
             'template' => 'jokes.html.php',
             'title' => $title,
-            'variables' => [
-                'totalJokes' => $totalJokes,
-                'jokes' => $jokes
-            ]
+            'variables' => ['totalJokes' => $totalJokes, 'jokes' => $jokes]
         ];
     }
 
@@ -81,9 +76,7 @@ class JokeController
             return [
                 'template' => 'editjoke.html.php',
                 'title' => $title,
-                'variables' => [
-                    'joke' => $joke ?? null
-                ]
+                'variables' => ['joke' => $joke ?? null]
             ];
         }
     }
