@@ -7,7 +7,7 @@
   <title><?= $title ?></title>
 </head>
 
-<body>
+<body> 
   <nav>
     <header>
       <h1>Internet Joke Database</h1>
