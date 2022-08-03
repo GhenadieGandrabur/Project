@@ -1,17 +1,11 @@
 <?php
-try {
-    include __DIR__ . '/../includes/autoload.php';
 
-    $route = ltrim(strtok($_SERVER['REQUEST_URI'], '?'), '/');
+$title = 'Internet Joke Database';
 
-    $entryPoint = new \Ninja\EntryPoint($route, $_SERVER['REQUEST_METHOD'], new \Ijdb\IjdbRoutes());
-    $entryPoint->run();
-} catch (PDOException $e) {
-    $title = 'An error has occurred';
+ob_start();
 
-    $output = 'Database error: ' . $e->getMessage() . ' in ' .
-        $e->getFile() . ':' . $e->getLine();
+include  __DIR__ . '/../templates/home.html.php';
 
-    include  __DIR__ . '/../templates/layout.html.php';
-}
+$output = ob_get_clean();
 
+include  __DIR__ . '/../templates/layout.html.php';
