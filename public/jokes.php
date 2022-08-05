@@ -2,14 +2,16 @@
 
 try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
-	include __DIR__ . '/../includes/DatabaseFunctions.php';
-
+	include __DIR__ . '/../classes/DatabaseTable.php';
+    
+	$jokeTable = new DatabaseTable($pdo, 'joke', 'id');
+	$authorTable = new DatabaseTable($pdo, 'author', 'id');
 	  
-	$result = findAll($pdo, 'joke');
+	$result = $jokeTable->findAll();
 
 	$jokes = [];
 	foreach ($result as $joke) {
-		$author = findById($pdo, 'author', 'id', $joke['authorId']);
+		$author = $authorTable->findById($joke['authorId']);
 
 		$jokes[] = [
 			'id' => $joke['id'],
@@ -24,7 +26,7 @@ try {
 
 	$title = 'Joke list';
 
-	$totalJokes = total($pdo, 'joke');
+	$totalJokes = $jokeTable->total();
 
 	ob_start();
 
@@ -36,7 +38,7 @@ try {
 catch (PDOException $e) {
 	$title = 'An error has occurred';
 
-	$output = 'Database error: ' . $e->getMessage() . ' in ' .
+	$output = 'Database error: ' . $e->getMessage() . ' in ' . '<br>'.
 	$e->getFile() . ':' . $e->getLine();
 }
 
