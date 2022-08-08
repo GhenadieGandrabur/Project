@@ -1,23 +1,24 @@
 <?php
-class JokeKontroller
-{
-    private $jokesTable;
-    private $authorsTable;
 
-    public function __construct( DatabaseTable $jokesTable,  $authorsTable)
+class JokeController
+{
+    private $authorsTable;
+    private $jokesTable;
+
+    public function __construct(DatabaseTable $jokesTable, DatabaseTable $authorsTable)
     {
-        $this->$jokesTable = $jokesTable;
+        $this->jokesTable = $jokesTable;
         $this->authorsTable = $authorsTable;
-        
     }
 
     public function list()
     {
-        $result = $this->jokeTable->findAll();
+        $result = $this->jokesTable->findAll();
 
         $jokes = [];
         foreach ($result as $joke) {
             $author = $this->authorsTable->findById($joke['authorId']);
+
             $jokes[] = [
                 'id' => $joke['id'],
                 'joketext' => $joke['joketext'],
@@ -27,28 +28,41 @@ class JokeKontroller
             ];
         }
 
+
         $title = 'Joke list';
 
-        $totalJokes = $this->jokeTable->total();
+        $totalJokes = $this->jokesTable->total();
 
         ob_start();
 
-        include  __DIR__ . '/../templates/jokes.html.php';
+        include  __DIR__ . '/../../templates/jokes.html.php';
 
-        $output = ob_get_clean();   
+        $output = ob_get_clean();
+
+        return ['output' => $output, 'title' => $title];
     }
+
     public function home()
     {
         $title = 'Internet Joke Database';
+
         ob_start();
-        include  __DIR__ . '/../templates/home.html.php';
-       $output = ob_get_clean();
+
+        include  __DIR__ . '/../../templates/home.html.php';
+
+        $output = ob_get_clean();
+
+        return ['output' => $output, 'title' => $title];
     }
+
     public function delete()
     {
         $this->jokesTable->delete($_POST['id']);
-        header('location: jokes.php');
+
+        header('location: index.php?action=list');
     }
+
+
     public function edit()
     {
         if (isset($_POST['joke'])) {
@@ -59,7 +73,7 @@ class JokeKontroller
 
             $this->jokesTable->save($joke);
 
-            header('location: jokes.php');
+            header('location: index.php?action=list');
         } else {
 
             if (isset($_GET['id'])) {
@@ -70,10 +84,11 @@ class JokeKontroller
 
             ob_start();
 
-            include  __DIR__ . '/../templates/editjoke.html.php';
+            include  __DIR__ . '/../../templates/editjoke.html.php';
 
             $output = ob_get_clean();
+
+            return ['output' => $output, 'title' => $title];
         }
     }
-
 }
