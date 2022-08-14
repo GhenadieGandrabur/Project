@@ -1,4 +1,5 @@
 <?php
+
 namespace Ijdb;
 
 class IjdbRoutes
@@ -11,20 +12,20 @@ class IjdbRoutes
         $authorsTable = new \Ninja\DatabaseTable($pdo, 'author', 'id');
 
         if ($route === 'joke/list') {
-         $controller = new \Ijdb\Controllers\Joke($jokesTable,$authorsTable);         
-         $page = $controller->list();
-        } elseif ($route === '') {
-        $controller = new \Ijdb\Controllers\Joke($jokesTable, $authorsTable);
-        $page = $controller->home();
-        } elseif ($route === 'joke/edit') {
+            $controller = new \Ijdb\Controllers\Joke($jokesTable, $authorsTable);
+            $page = $controller->list();
+        } else if ($route === '') {
+            $controller = new \Ijdb\Controllers\Joke($jokesTable, $authorsTable);
+            $page = $controller->home();
+        } else if ($route === 'joke/edit') {
             $controller = new \Ijdb\Controllers\Joke($jokesTable, $authorsTable);
             $page = $controller->edit();
-        } elseif ($route === 'joke/delete') {
+        } else if ($route === 'joke/delete') {
             $controller = new \Ijdb\Controllers\Joke($jokesTable, $authorsTable);
             $page = $controller->delete();
-        } elseif ($route === 'register') {           
-          $controller = new \Ijdb\Controllers\Register($authorsTable);            
-          $page = $controller->showForm();
+        } else if ($route === 'register') {
+            $controller = new \Ijdb\Controllers\Register($authorsTable);
+            $page = $controller->showForm();
         }
 
         return $page;

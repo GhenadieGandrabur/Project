@@ -11,37 +11,40 @@ class EntryPoint
     {
         $this->route = $route;
         $this->routes = $routes;
-        $this->chekUrl();
+        $this->checkUrl();
     }
 
-    private function chekUrl()
+    private function checkUrl()
     {
-        if($this->route !== strtolower($this->route))
-        {
+        if ($this->route !== strtolower($this->route)) {
             http_response_code(301);
-            header('location:' . strtolower($this->route));
+            header('location: ' . strtolower($this->route));
         }
     }
-    private function loadtemplate($templateFileName, $variables=[])
+
+    private function loadTemplate($templateFileName, $variables = [])
     {
         extract($variables);
+
         ob_start();
-        include __DIR__ . '/../../templates/' . $templateFileName;
+        include  __DIR__ . '/../../templates/' . $templateFileName;
+
         return ob_get_clean();
     }
 
-  
-
     public function run()
     {
-        $page = $this->routes->callAction($this->route);
-        $title = $page['title'];
-        if(isset($page['variables'])){
-            $output = $this->loadtemplate($page['template'], $page['variables']);            
-        }else{
-            $output = $this->loadtemplate($page['template']);
-        }
-        include __DIR__ . '/../../templates/layout.html.php';
-    }
 
+        $page = $this->routes->callAction($this->route);
+
+        $title = $page['title'];
+
+        if (isset($page['variables'])) {
+            $output = $this->loadTemplate($page['template'], $page['variables']);
+        } else {
+            $output = $this->loadTemplate($page['template']);
+        }
+
+        include  __DIR__ . '/../../templates/layout.html.php';
+    }
 }
