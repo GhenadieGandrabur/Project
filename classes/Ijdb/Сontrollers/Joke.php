@@ -1,6 +1,10 @@
 <?php
 
-class JokeController
+namespace Ijdb\Controllers;
+
+use \Ninja\DatabaseTable;
+
+class Joke
 {
     private $authorsTable;
     private $jokesTable;
@@ -33,15 +37,20 @@ class JokeController
 
         $totalJokes = $this->jokesTable->total();
 
-        return ['template' => 'jokes.html.php', 'title' => $title,
-    'variables' => ['totalJokes' => $totalJokes, 'jokes' => $jokes ]
-    ];
+
+        return [
+            'template' => 'jokes.html.php',
+            'title' => $title,
+            'variables' => [
+                'totalJokes' => $totalJokes,
+                'jokes' => $jokes
+            ]
+        ];
     }
 
     public function home()
     {
         $title = 'Internet Joke Database';
-
 
         return ['template' => 'home.html.php', 'title' => $title];
     }
@@ -73,8 +82,12 @@ class JokeController
 
             $title = 'Edit joke';
 
-            return [ 'template' => 'editjoke.html.php', 'title' => $title, 
-                     'variables' => ['joke' => $joke ?? null ]
+            return [
+                'template' => 'editjoke.html.php',
+                'title' => $title,
+                'variables' => [
+                    'joke' => $joke ?? null
+                ]
             ];
         }
     }
