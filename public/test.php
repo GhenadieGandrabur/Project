@@ -1,9 +1,14 @@
 <?php
-$route = $_SERVER['REQUEST_URI'];
-echo $route;
-echo "<br>";
-$method = $_SERVER['REQUEST_METHOD'];
-echo $method;
-echo "<br>";
-$cars = ['Volvo'=>['740', '741'], 'MB'=>['Models'=> ['525','750']] , 'BMW'];
-echo $cars['MB']['Models'][0];
+session_start();
+
+if (!isset($_SESSION['visits'])) {
+    $_SESSION['visits'] = 0;
+}
+$_SESSION['visits'] = $_SESSION['visits'] + 1;
+
+if ($_SESSION['visits'] > 1) {
+    echo 'This is visit number ' . $_SESSION['visits'];
+} else {
+    // First visit
+    echo 'Welcome to my website! Click here for a tour!';
+}
