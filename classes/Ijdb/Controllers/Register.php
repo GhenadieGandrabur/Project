@@ -3,6 +3,7 @@
 namespace Ijdb\Controllers;
 
 use \Ninja\DatabaseTable;
+
 class Register{
     private $authorsTable;
     public function __construct(DatabaseTable $authorsTable)
@@ -57,10 +58,7 @@ class Register{
             return [
                 'template' => 'register.html.php',
                 'title' => 'Register an account',
-                'variables' => [
-                    'errors' => $errors,
-                    'author' => $author
-                ]
+                'variables' => ['errors' => $errors, 'author' => $author ]
             ];
         }
     }

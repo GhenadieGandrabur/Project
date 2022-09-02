@@ -20,8 +20,7 @@
   </nav>
 
   <main>
-    <?= $output ?>
-    
+    <?= $output ?>    
   </main>
 
   <footer>
