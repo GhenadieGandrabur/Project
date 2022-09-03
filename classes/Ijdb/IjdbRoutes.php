@@ -29,8 +29,8 @@ class IjdbRoutes implements \Ninja\Routes
 			'author/success' => ['GET' => ['controller' => $authorController, 'action' => 'success']],
 			'joke/edit' => ['POST' => ['controller' => $jokeController,	'action' => 'saveEdit'],'GET' => ['controller' => $jokeController,'action' => 'edit'], 'login' => true],
 			'joke/delete' => ['POST' => ['controller' => $jokeController,'action' => 'delete'], 'login' => true],			
-			'joke/list' => ['GET' => ['controller' => $jokeController,'action' => 'list']],
-			'' => ['GET' => ['controller' => $jokeController,'action' => 'home']],
+			'joke/list' => ['GET' => ['controller' => $jokeController,'action' => 'list'], 'login' => true],
+			'' => ['GET' => ['controller' => $jokeController,'action' => 'home'], 'login' => true],
 			'login/error' => ['GET' => ['controller' => $loginController, 'action' => 'error']],
 			'login' => ['GET' => ['controller' => $loginController,'action' => 'loginForm'],'POST' => ['controller' => $loginController, 'action' => 'processLogin']],
 			'login/success' => ['GET' => ['controller' => $loginController,	'action' => 'success'],	'login' => true	]
