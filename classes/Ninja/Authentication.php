@@ -37,12 +37,9 @@ class Authentication
             return false;
         }
 
-        $user = $this->users->find($this->usernameColumn,
-         strtolower($_SESSION['username']));
+        $user = $this->users->find($this->usernameColumn, strtolower($_SESSION['username']));
 
-        if (!empty($user) && 
-         $user[0][$this->passwordColumn]
-         === $_SESSION['password']) {
+        if (!empty($user) && $user[0][$this->passwordColumn] === $_SESSION['password']) {
             return true;
         } else {
             return false;

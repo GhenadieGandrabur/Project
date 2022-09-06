@@ -8,24 +8,23 @@
 </head>
 
 <body>
-  <nav>    
-   
+  <nav>
+    <header>
+      <h1>Internet Joke Database</h1>
+    </header>
     <ul>
       <li><a href="/">Home</a></li>
       <li><a href="/joke/list">Jokes List</a></li>
-      <li><a href="/joke/edit">Add a new Joke</a></li>      
-      <li><a href="/joke/edit">Add a new Joke</a></li>      
-      <li><a href="/joke/edit">Add a new Joke</a></li>      
-      <li><a href="/joke/edit">Add a new Joke</a></li>      
+      <li><a href="/joke/edit">Add a new Joke</a></li>
     </ul>
   </nav>
 
   <main>
-    <?= $output ?>    
+    <?= $output ?>
   </main>
 
   <footer>
-    &copy; Cubit <?= Date("Y")?>
+    &copy; IJDB 20--
   </footer>
 </body>
 
