@@ -1,31 +1,28 @@
 <?php
 namespace Ijdb\Controllers;
 
-class Category
-{
-    private $categoriesTable;
+class Category {
+	private $categoriesTable;
 
-    public function __construct(\Ninja\DatabaseTable
-     $categoriesTable)
-    {
-        $this->categoriesTable = $categoriesTable;
-    }
+	public function __construct(\Ninja\DatabaseTable $categoriesTable) {
+		$this->categoriesTable = $categoriesTable;
+	}
 
-    public function list() {
-    $categories = $this->categoriesTable->findAll();
+	public function edit() {
 
-    $title = 'Joke Categories';
+		if (isset($_GET['id'])) {
+			$category = $this->categoriesTable->findById($_GET['id']);
+		}
 
-    return ['template' => 'categories.html.php',
-    'title' => $title,
-    'variables' => ['categories' => $categories]
-    ];
-}
-    public function delete() {
-    $this->categoriesTable->delete($_POST['id']);
+		$title = 'Edit Category';
 
-    header('location: /category/list');
-}
+		return ['template' => 'editcategory.html.php',
+				'title' => $title,
+				'variables' => [
+					'category' => $category ?? null
+				]
+		];
+	}
 
 	public function saveEdit() {
 		$category = $_POST['category'];
@@ -35,17 +32,22 @@ class Category
 		header('location: /category/list');
 	}
 
+	public function list() {
+		$categories = $this->categoriesTable->findAll();
 
-    public function edit() {
+		$title = 'Joke Categories';
 
-    if (isset($_GET['id'])) {
-    $category = $this->categoriesTable->findById($_GET['id']);
-    }
+		return ['template' => 'categories.html.php', 
+			'title' => $title, 
+			'variables' => [
+			    'categories' => $categories
+			  ]
+		];
+	}
 
-    $title = 'Edit Category';
+	public function delete() {
+		$this->categoriesTable->delete($_POST['id']);
 
-    return ['template' => 'editcategory.html.php',
-    'title' => $title,
-    'variables' => ['category' => $category ?? null]];
-}
+		header('location: /category/list'); 
+	}
 }

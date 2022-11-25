@@ -5,7 +5,7 @@ class DatabaseTable {
 	private $pdo;
 	private $table;
 	private $primaryKey;
-    private $className;
+	private $className;
 	private $constructorArgs;
 
 	public function __construct(\PDO $pdo, string $table, string $primaryKey, string $className = '\stdClass', array $constructorArgs = []) {
@@ -36,8 +36,8 @@ class DatabaseTable {
 		];
 
 		$query = $this->query($query, $parameters);
-        return $query->fetchObject($this->className,
-        $this->constructorArgs);
+
+		return $query->fetchObject($this->className, $this->constructorArgs);
 	}
 
 	public function find($column, $value) {
@@ -50,7 +50,6 @@ class DatabaseTable {
 		$query = $this->query($query, $parameters);
 
 		return $query->fetchAll(\PDO::FETCH_CLASS, $this->className, $this->constructorArgs);
-		
 	}
 
 	private function insert($fields) {
@@ -76,6 +75,8 @@ class DatabaseTable {
 		$fields = $this->processDates($fields);
 
 		$this->query($query, $fields);
+
+		return $this->pdo->lastInsertId();
 	}
 
 
@@ -91,7 +92,7 @@ class DatabaseTable {
 		$query .= ' WHERE `' . $this->primaryKey . '` = :primaryKey';
 
 		//Set the :primaryKey variable
-		$fields['primaryKey'] = $fields['id'];
+		$fields['primaryKey'] = $fields[$this->primaryKey];
 
 		$fields = $this->processDates($fields);
 
@@ -105,6 +106,15 @@ class DatabaseTable {
 		$this->query('DELETE FROM `' . $this->table . '` WHERE `' . $this->primaryKey . '` = :id', $parameters);
 	}
 
+	public function deleteWhere($column, $value) {
+		$query = 'DELETE FROM ' . $this->table . ' WHERE ' . $column . ' = :value';
+
+		$parameters = [
+			'value' => $value
+		];
+
+		$query = $this->query($query, $parameters);
+	}
 
 	public function findAll() {
 		$result = $this->query('SELECT * FROM ' . $this->table);
@@ -124,14 +134,26 @@ class DatabaseTable {
 
 
 	public function save($record) {
+		$entity = new $this->className(...$this->constructorArgs);
+
 		try {
 			if ($record[$this->primaryKey] == '') {
 				$record[$this->primaryKey] = null;
 			}
-			$this->insert($record);
+			$insertId = $this->insert($record);
+
+			$entity->{$this->primaryKey} = $insertId;
 		}
 		catch (\PDOException $e) {
-			$this->update( $record);
+			$this->update($record);
 		}
+
+		foreach ($record as $key => $value) {
+			if (!empty($value)) {
+				$entity->$key = $value;	
+			}			
+		}
+
+		return $entity;	
 	}
 }
